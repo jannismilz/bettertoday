@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DATABASE_URL=mysql://root:@database/development
+      - NODE_ENV=development
       - APP_SECRET=rZGx2GEn9Vt3fNe5cs2ldUnr7KUTXfx6PuudEWXAenY=
     volumes:
       - ..:/workspace:cached
