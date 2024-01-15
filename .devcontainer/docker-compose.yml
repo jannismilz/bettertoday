@@ -1,0 +1,35 @@
+version: "3"
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=mysql://root:@database/development
+      - APP_SECRET=rZGx2GEn9Vt3fNe5cs2ldUnr7KUTXfx6PuudEWXAenY=
+    volumes:
+      - ..:/workspace:cached
+      - ${HOME}${USERPROFILE:-}/.ssh:/root/.ssh
+      - ${HOME}${USERPROFILE:-}/.gitconfig:/root/.gitconfig
+      - ${HOME}${USERPROFILE:-}/.gitignore_global:/root/.gitignore_global
+      - app_uploads:/workspace/uploads
+    depends_on: [database]
+    command: sleep infinity
+
+  database:
+    container_name: database
+    image: mariadb:10.11
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD='yes'
+      - MYSQL_DATABASE=development
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=root
+      - TZ=Europe/Zurich
+    ports: ["3306:3306"]
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  app_uploads:
+  db_data:
