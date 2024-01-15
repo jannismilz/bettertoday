@@ -9,10 +9,10 @@ interface Database {
 const dialect = new MysqlDialect({
   // Currently only placeholders
   pool: createPool({
-    database: 'test',
-    host: 'localhost',
-    user: 'admin',
-    password: '123',
+    database: process.env.NODE_ENV === "development" ? "development" : "bettertoday",
+    host: "database",
+    user: process.env.NODE_ENV === "development" ? "root" : process.env.DB_USER,
+    password: process.env.DB_PASSWORD || "",
     port: 3306,
     connectionLimit: 10,
   })
