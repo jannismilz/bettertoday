@@ -1,6 +1,10 @@
-import { Database } from './schema.ts' // this is the Database interface we defined earlier
 import { createPool } from 'mysql2' // do not use 'mysql2/promises'!
 import { Kysely, MysqlDialect } from 'kysely'
+import { PersonTable } from './schemas/User.ts'
+
+interface Database {
+  person: PersonTable
+}
 
 const dialect = new MysqlDialect({
   // Currently only placeholders
