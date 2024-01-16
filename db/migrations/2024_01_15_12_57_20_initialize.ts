@@ -193,14 +193,17 @@ export async function up(db: Kysely<any>): Promise<void> {
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable("users").execute();
-  await db.schema.dropTable("projects").execute();
   await db.schema.dropTable("project_todos").execute();
   await db.schema.dropTable("project_counters").execute();
   await db.schema.dropTable("project_habits").execute();
   await db.schema.dropTable("project_deadlines").execute();
-  await db.schema.dropTable("project_stopwatches").execute();
   await db.schema.dropTable("project_stopwatche_resets").execute();
-  await db.schema.dropTable("shared_dashboards").execute();
+  await db.schema.dropTable("project_stopwatches").execute();
+
   await db.schema.dropTable("shared_dashboard_projects").execute();
+
+  await db.schema.dropTable("projects").execute();
+  await db.schema.dropTable("shared_dashboards").execute();
+
+  await db.schema.dropTable("users").execute();
 }
