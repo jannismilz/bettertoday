@@ -1,5 +1,5 @@
-import { upsertUser } from "@/db/repositories/UserRepository";
-import { AuthOptions, NextAuthOptions, Profile } from "next-auth";
+import { getUserByEmail, upsertUser } from "@/db/repositories/UserRepository";
+import { AuthOptions, NextAuthOptions, Profile, Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google"
 
 export const authOptions: AuthOptions = {
@@ -23,5 +23,14 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
+    async session({ session, token }) {
+      const user = await getUserByEmail(session.user?.email || "")
+
+      session.first_name = user?.first_name
+      session.last_name = user?.last_name
+      session.avatar_url = user?.avatar_url
+
+      return session
+    }
   },
 };
