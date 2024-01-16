@@ -1,5 +1,6 @@
+// Currently only boilerplate/example
 import { db } from "../db";
-import { Person } from "../schemas/User";
+import { Person } from "../schemas/Users";
 
 export async function findPersonById(id: number) {
   return await db
