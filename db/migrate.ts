@@ -1,7 +1,7 @@
 import { db } from "./db";
 import * as path from "path";
 import { promises as fs } from "fs";
-import { FileMigrationProvider, Migrator } from "kysely";
+import { FileMigrationProvider, Migration, MigrationResultSet, Migrator } from "kysely";
 
 const migrator = new Migrator({
   db,
@@ -13,9 +13,24 @@ const migrator = new Migrator({
   }),
 });
 
-async function migrateToLatest() {
-  const { error, results } = await migrator.migrateToLatest();
+async function migrate(action: string | undefined) {
+  if (action === undefined) {
+    const { error, results } = await migrator.migrateToLatest();
+    outputMigrationResult({ error, results })
+  }
+  if (action === "up") {
+    const { error, results } = await migrator.migrateUp();
+    outputMigrationResult({ error, results })
+  }
+  if (action === "down") {
+    const { error, results } = await migrator.migrateDown();
+    outputMigrationResult({ error, results })
+  }
 
+  await db.destroy();
+}
+
+function outputMigrationResult({ results, error }: MigrationResultSet) {
   results?.forEach((it) => {
     if (it.status === "Success") {
       console.log(`migration "${it.migrationName}" was executed successfully`);
@@ -29,8 +44,6 @@ async function migrateToLatest() {
     console.error(error);
     process.exit(1);
   }
-
-  await db.destroy();
 }
 
-migrateToLatest();
+migrate(process.argv.slice(2)[0])
