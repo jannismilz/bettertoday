@@ -1,4 +1,5 @@
-import { AuthOptions, NextAuthOptions } from "next-auth";
+import { upsertUser } from "@/db/repositories/UserRepository";
+import { AuthOptions, NextAuthOptions, Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google"
 
 export const authOptions: AuthOptions = {
@@ -12,7 +13,13 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log({ user, account, profile });
+      if (!profile) {
+        console.error(`No profile found. User: ${user}. Account: ${account}`)
+      }
+
+      const { email, given_name, family_name, picture } = profile as any // Any since every provider adds own values
+
+      await upsertUser({ email, first_name: given_name, last_name: family_name, avatar_url: picture })
 
       return true;
     },
