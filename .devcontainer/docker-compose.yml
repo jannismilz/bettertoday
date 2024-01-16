@@ -8,7 +8,7 @@ services:
     env_file: .env
     environment:
       - NODE_ENV=development
-      - APP_SECRET=rZGx2GEn9Vt3fNe5cs2ldUnr7KUTXfx6PuudEWXAenY=
+      - NEXTAUTH_SECRET=rZGx2GEn9Vt3fNe5cs2ldUnr7KUTXfx6PuudEWXAenY=
     volumes:
       - ..:/workspace:cached
       - ${HOME}${USERPROFILE:-}/.ssh:/root/.ssh
