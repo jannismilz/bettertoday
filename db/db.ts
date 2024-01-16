@@ -1,13 +1,30 @@
-import { createPool } from "mysql2"; // do not use 'mysql2/promises'!
+import { createPool } from "mysql2";
 import { Kysely, MysqlDialect } from "kysely";
-import { PersonTable } from "./schemas/User.ts";
+import { UsersTable } from "./schemas/Users.ts";
+import { ProjectsTable } from "./schemas/Projects.ts";
+import { ProjectStopwatchesTable } from "./schemas/ProjectStopwatches.ts";
+import { ProjectStopwatchResetsTable } from "./schemas/ProjectStopwatchResets.ts";
+import { ProjectTodosTable } from "./schemas/ProjectTodos.ts";
+import { ProjectHabitsTable } from "./schemas/ProjectHabits.ts";
+import { ProjectCountersTable } from "./schemas/ProjectCounters.ts";
+import { ProjectDeadlinesTable } from "./schemas/ProjectDeadlines.ts";
+import { SharedViewsTable } from "./schemas/SharedViews.ts";
+import { SharedViewProjectsTable } from "./schemas/SharedViewProjects.ts";
 
 interface Database {
-  person: PersonTable;
+  users: UsersTable,
+  projects: ProjectsTable,
+  project_stopwatches: ProjectStopwatchesTable,
+  project_stopwatch_resets: ProjectStopwatchResetsTable,
+  project_todos: ProjectTodosTable,
+  project_habits: ProjectHabitsTable,
+  project_counters: ProjectCountersTable,
+  project_deadlines: ProjectDeadlinesTable,
+  shared_views: SharedViewsTable,
+  shared_dashboard_projects: SharedViewProjectsTable
 }
 
 const dialect = new MysqlDialect({
-  // Currently only placeholders
   pool: createPool({
     database:
       process.env.NODE_ENV === "development" ? "development" : "bettertoday",
@@ -19,10 +36,6 @@ const dialect = new MysqlDialect({
   }),
 });
 
-// Database interface is passed to Kysely's constructor, and from now on, Kysely
-// knows your database structure.
-// Dialect is passed to Kysely's constructor, and from now on, Kysely knows how
-// to communicate with your database.
 export const db = new Kysely<Database>({
   dialect,
 });
