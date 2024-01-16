@@ -1,6 +1,6 @@
 import { getUserByEmail, upsertUser } from "@/db/repositories/UserRepository";
 import { AuthOptions, NextAuthOptions, Profile, Session } from "next-auth";
-import GoogleProvider from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
@@ -8,29 +8,34 @@ export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
-    })
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
       if (!profile) {
-        console.error(`No profile found. User: ${user}. Account: ${account}`)
+        console.error(`No profile found. User: ${user}. Account: ${account}`);
       }
 
-      const { email, given_name, family_name, picture } = profile as any // Any since every provider adds own values
+      const { email, given_name, family_name, picture } = profile!;
 
-      await upsertUser({ email, first_name: given_name, last_name: family_name, avatar_url: picture })
+      await upsertUser({
+        email: email as string, // Force email to be a string (doesn't prioritize type definitions from types/next-auth.d.ts)
+        first_name: given_name,
+        last_name: family_name,
+        avatar_url: picture,
+      });
 
       return true;
     },
-    async session({ session, token }) {
-      const user = await getUserByEmail(session.user?.email || "")
+    async session({ session }) {
+      const user = await getUserByEmail(session.user?.email || "");
 
-      session.first_name = user?.first_name
-      session.last_name = user?.last_name
-      session.avatar_url = user?.avatar_url
+      session.user.first_name = user!.first_name;
+      session.user.last_name = user!.last_name;
+      session.user.avatar_url = user!.avatar_url;
 
-      return session
-    }
+      return session;
+    },
   },
 };
