@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Hello {user?.name}
+      <h1>Hey {JSON.stringify(user)}</h1>
     </main>
   );
 }
