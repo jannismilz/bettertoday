@@ -12,16 +12,16 @@ import { SharedViewsTable } from "./schemas/SharedViews.ts";
 import { SharedViewProjectsTable } from "./schemas/SharedViewProjects.ts";
 
 interface Database {
-  users: UsersTable,
-  projects: ProjectsTable,
-  project_stopwatches: ProjectStopwatchesTable,
-  project_stopwatch_resets: ProjectStopwatchResetsTable,
-  project_todos: ProjectTodosTable,
-  project_habits: ProjectHabitsTable,
-  project_counters: ProjectCountersTable,
-  project_deadlines: ProjectDeadlinesTable,
-  shared_views: SharedViewsTable,
-  shared_dashboard_projects: SharedViewProjectsTable
+  users: UsersTable;
+  projects: ProjectsTable;
+  project_stopwatches: ProjectStopwatchesTable;
+  project_stopwatch_resets: ProjectStopwatchResetsTable;
+  project_todos: ProjectTodosTable;
+  project_habits: ProjectHabitsTable;
+  project_counters: ProjectCountersTable;
+  project_deadlines: ProjectDeadlinesTable;
+  shared_views: SharedViewsTable;
+  shared_dashboard_projects: SharedViewProjectsTable;
 }
 
 const dialect = new MysqlDialect({

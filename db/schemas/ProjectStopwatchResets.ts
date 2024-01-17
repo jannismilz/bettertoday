@@ -16,4 +16,5 @@ export interface ProjectStopwatchResetsTable {
 
 export type ProjectStopwatchReset = Selectable<ProjectStopwatchResetsTable>;
 export type NewProjectStopwatchReset = Insertable<ProjectStopwatchResetsTable>;
-export type ProjectStopwatchResetUpdate = Updateable<ProjectStopwatchResetsTable>;
+export type ProjectStopwatchResetUpdate =
+  Updateable<ProjectStopwatchResetsTable>;
