@@ -27,9 +27,9 @@ interface Database {
 const dialect = new MysqlDialect({
   pool: createPool({
     database:
-      process.env.NODE_ENV === "development" ? "development" : "bettertoday",
+      process.env.APP_ENV === "development" ? "development" : "bettertoday",
     host: "database",
-    user: process.env.NODE_ENV === "development" ? "root" : process.env.DB_USER,
+    user: process.env.APP_ENV === "development" ? "root" : process.env.DB_USER,
     password: process.env.DB_PASSWORD || "",
     port: 3306,
     connectionLimit: 10,

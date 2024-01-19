@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     environment:
-      - NODE_ENV=development
+      - APP_ENV=development
       - NEXTAUTH_SECRET=rZGx2GEn9Vt3fNe5cs2ldUnr7KUTXfx6PuudEWXAenY=
     volumes:
       - ..:/workspace:cached
